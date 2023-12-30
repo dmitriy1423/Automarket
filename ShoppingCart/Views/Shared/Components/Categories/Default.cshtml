@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Category>
+
+<ul class="list-group">
+    <li class="list-group-item">
+        <a class="nav-link text-dark" asp-controller="Products" asp-action="Index" asp-route-categorySlug="">Все автомобили</a>
+    </li>
+
+    @foreach (var item in Model)
+    {
+        <li class="list-group-item list-group-item-action">
+            <a class="nav-link @IsActiveCategory(item.Slug, ViewBag.CurrentCategorySlug)" asp-controller="Products" asp-action="Index" asp-route-categorySlug="@item.Slug">@item.Name</a>
+        </li>
+    }
+</ul>
+
+@functions {
+    private string IsActiveCategory(string categorySlug, string currentCategorySlug)
+    {
+        return (categorySlug == currentCategorySlug) ? "text-primary" : "text-dark";
+    }
+}

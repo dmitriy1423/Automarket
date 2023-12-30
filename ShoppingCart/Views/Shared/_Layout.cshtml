@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Автомаркет</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+<body class="d-flex flex-column">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Автомаркет</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <ul class="navbar-nav flex-grow-1 align-items-center justify-content-between">
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Products" asp-action="Index">Каталог</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <ul class="navbar-nav flex-grow-1 align-items-center justify-content-between gap-2">
+                            @if (User.Identity?.IsAuthenticated ?? false)
+                            {
+                                <li class="nav-item">
+                                    <vc:small-cart />
+                                </li>
+                                <li class="nav-item">
+                                    <form method="post" asp-controller="Account" asp-action="Logout">
+                                        <button class="btn btn-danger" type="submit">@User.Identity.Name, Выход</button>
+                                    </form>
+                                </li>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="btn btn-primary" asp-area="Admin" asp-controller="Products" asp-action="Index">Админ-панель</a>
+                                    </li>                              
+                                }
+                                <li class="nav-item">
+                                    <a class="btn btn-light" asp-controller="Orders" asp-action="Index">Ваши предыдущие заказы</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="btn btn-success" asp-controller="Account" asp-action="Login">Вход</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-success" asp-controller="Account" asp-action="Create">Регистрация</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container mt-5 flex-grow-1">
+        <main role="main" class="pb-3">
+            <partial name="_NotificationPartial" />
+            @RenderBody() 
+        </main>
+    </div>
+
+    <footer class="footer mt-auto py-3 bg-light text-center">
+        <div class="container">
+            &copy; 2023 - Автомаркет
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

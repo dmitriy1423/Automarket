@@ -1,0 +1,14 @@
+﻿@{
+    var sortOrder = Context.Request.Query["sortOrder"];
+}
+
+<form asp-controller="Products" asp-action="Index" method="get">
+    <div class="form-group">
+        <label for="sortOrder">Отсортировать по цене:</label>
+        <select id="sortOrder" name="sortOrder" class="form-control" onchange="this.form.submit()">
+            <option value="">Вариант...</option>
+            <option value="asc" selected="@(sortOrder == "asc")">Сначала дешевые</option>
+            <option value="desc" selected="@(sortOrder == "desc")">Сначала дорогие</option>
+        </select>
+    </div>
+</form>

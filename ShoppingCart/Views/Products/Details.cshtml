@@ -1,0 +1,22 @@
+﻿@model Car
+
+@{
+    ViewData["Title"] = @Model.Name;
+}
+
+<div class="row">
+    <div class="col-md-6 col-lg-6">
+        <div class="card">
+            <img src="/images/@Model.Image" class="card-img-top" alt="@Model.Name" style="height: 300px; object-fit: cover;">
+            <div class="card-body">
+                <h4 class="card-title">@Model.Name</h4>
+                <p class="card-text">@Model.Category.Name</p>
+                <p class="card-text">@Html.Raw(Model.Description)</p>
+                <p class="card-text"><strong>Цена: </strong>@Model.Price.ToString() руб.</p>
+                <p class="card-text"><strong>Максимальная скорость: </strong>@Model.Speed км/ч</p>
+                <a class="btn btn-primary" asp-controller="Cart" asp-action="Add" asp-route-id="@Model.Id">Добавить в корзину</a>
+                <a asp-controller="Home" asp-action="Index">Вернуться на главную</a>
+            </div>
+        </div>
+    </div>
+</div>

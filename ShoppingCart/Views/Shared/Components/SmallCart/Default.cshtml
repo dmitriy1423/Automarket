@@ -1,0 +1,31 @@
+﻿@model SmallCartViewModel
+
+<div class="dropdown">
+    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-bag"></i>
+        @{
+            if (Model?.NumberOfItems > 0)
+            {
+                <span class="badge bg-primary">@Model.NumberOfItems</span>
+            }           
+        }
+        
+    </a>
+
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        @if (Model != null && Model.NumberOfItems > 0)
+        {
+            <p class="dropdown-item-text">Товаров в корзине: <span class="badge bg-primary">@Model.NumberOfItems</span></p>
+            <p class="dropdown-item-text">Полная стоимость: <strong>@Model.TotalAmount.ToString() руб.</strong></p>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" asp-controller="Cart" asp-action="Index">Просмотреть корзину</a>
+            <a class="dropdown-item text-danger" asp-controller="Cart" asp-action="Clear">Очистить корзину</a>
+        }
+        else
+        {
+            <p class="dropdown-item-text">Ваша корзина пуста</p>
+        }
+    </div>
+</div>
+
+

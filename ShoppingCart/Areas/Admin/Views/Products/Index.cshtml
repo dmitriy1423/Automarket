@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Car>
+
+@{
+    ViewData["Title"] = "Управление каталогом автомобилей";
+}
+
+<h1>Автомобили</h1>
+
+<p>
+    <a asp-action="Create">Создать новый</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Цена</th>
+            <th>Категория</th>
+            <th>Изображение</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Price.ToString() руб.
+            </td>
+            <td>
+                @item.Category.Name
+            </td>
+            <td>
+                <img src="/images/@item.Image" width="100" alt=""/>
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="confirmDeletion">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<div class="d-flex w-100 justify-content-center">
+    <pagination page-count="@ViewBag.TotalPages"
+                page-target="/admin/products/@ViewBag.CategorySlug"
+                page-number="@ViewBag.PageNumber"
+                page-range="@ViewBag.PageRange">
+    </pagination>
+</div>
+
+<h2>Пункты выдачи</h2>
+<form asp-area="Admin" asp-controller="Markers" asp-action="AddMarker" method="post">
+    <div id="map" style="height: 400px;"></div>
+    <input type="hidden" id="markerId" name="markerId">
+    <div class="form-group">
+        <label for="latitude">Широта</label>
+        <input type="number" step="0.000000000000001" class="form-control" id="latitude" name="latitude" required>
+    </div>
+    <div class="form-group">
+        <label for="longitude">Долгота</label>
+        <input type="number" step="0.000000000000001" class="form-control" id="longitude" name="longitude" required>
+    </div>
+    <div class="form-group">
+        <label for="description">Описание</label>
+        <textarea class="form-control" id="description" name="description" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Добавить пункт выдачи</button>
+    <a class="btn btn-danger" id="deleteMarkerLink" asp-area="Admin" asp-controller="Markers" asp-action="DeleteMarker" onclick="return confirm('Вы уверены?');">Удалить пункт выдачи</a>
+
+</form>
